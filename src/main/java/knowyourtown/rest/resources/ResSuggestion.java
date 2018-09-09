@@ -6,6 +6,9 @@ import knowyourtown.rest.models.Suggestion;
 import knowyourtown.rest.models.Success;
 import knowyourtown.business.webservice.Business;
 
+import knowyourtown.storage.StorageClient;
+import knowyourtown.storage.webservice.Storage;
+
 import knowyourtown.localdb.webservice.PlaceType;
 
 import javax.ws.rs.*;
@@ -50,59 +53,61 @@ public class ResSuggestion {
     @Path("new/{uid}/{oldTitle}")
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public String newSuggestion(@PathParam("uid") Integer uid, @PathParam("oldTitle") String oldTitle, String suggestionjson) {
+    public String newSuggestion(@PathParam("uid") Integer uid, @PathParam("oldTitle") String oldTitle, String evaluation) {
 
         System.out.println(":: GOAL POST RECIEVED : /suggestion/new/" + uid + "/" + oldTitle);
-        System.out.println("\t JSON -> " + suggestionjson);
 
         //CALL BUSINESS SERVICE
         BusinessClient businessClient = new BusinessClient();
         Business business = businessClient.getBusiness();
 
+        StorageClient storageClient = new StorageClient();
+        Storage storage = storageClient.getStorage();
+
         Gson gson = new Gson();
-        Suggestion newSuggestion = gson.fromJson(suggestionjson, Suggestion.class);
+        knowyourtown.localdb.webservice.Suggestion newSuggestion = storage.getSuggestionByTitle(uid,oldTitle);
 
-        knowyourtown.localdb.webservice.Suggestion wsSuggestion = new knowyourtown.localdb.webservice.Suggestion();
-        wsSuggestion.setTitle(newSuggestion.title);
+        newSuggestion.setEvaluation(evaluation);
 
-        wsSuggestion.setDescription(newSuggestion.description);
 
-        // ** *** * * ** **  parse condition
-        /*String condition[] = newSuggestion.condition.split(" ");
-        String cType = condition[0].toLowerCase();
-        String cIncrease = condition[1];
-        Float cValue = Float.valueOf(condition[2]);*/
-
-        /*PlaceType placeType = new PlaceType();
-        //placeType.setType(cType);
-        //wsSuggestion.setPlaceType(placeType);
-
-        wsSuggestion.setValue(cValue);
-
-        SuggestionType suggestionType = new SuggestionType();
-        suggestionType.setType(cIncrease);
-        wsSuggestion.setSuggestionType(suggestionType);
-
-*/
-        if (business.updateSuggestion(uid, wsSuggestion, oldTitle) == 0)
+        if (business.updateSuggestion(uid, newSuggestion, oldTitle) == 0)
             return gson.toJson(new Success(true));
         else
             return gson.toJson(new Success(false));
     }
 
-/*
+    @POST
+    @Path("newSugg/{uid}")
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public String newSuggestionAuto(@PathParam("uid") Integer uid, String title) {
+
+        System.out.println(":: SUGGESTION NEW AUTO POST RECIEVED : /suggestion/newSugg/" + uid );
+
+         Gson gson = new Gson();
+        //CALL BUSINESS SERVICE
+        BusinessClient businessClient = new BusinessClient();
+        Business business = businessClient.getBusiness();
+
+        if (business.createSuggestion(uid,  title) == 0)
+            return gson.toJson(new Success(false));
+        else
+            return gson.toJson(new Success(true));
+    }
+
+
     @GET
     @Path("show/{id}")
     @Produces("application/json")
     public String showSuggestions(@PathParam("id") Integer uid) {
 
-        System.out.println(":: GOAL GET RECIEVED : /suggestion/show/" + uid);
+        System.out.println(":: SUGGESTION GET RECIEVED : /suggestion/show/" + uid);
 
         BusinessClient businessClient = new BusinessClient();
         Business business = businessClient.getBusiness();
 
         boolean isEmpty = false;
-        List<SuggestionBusiness> suggestions = null;
+        List<knowyourtown.localdb.webservice.Suggestion> suggestions = null;
         try {
             suggestions = business.getSuggestions(uid);
         } catch (Exception e) {
@@ -113,30 +118,9 @@ public class ResSuggestion {
         Gson gson = new Gson();
 
         if (isEmpty == false) {
-            Iterator it;
-            it = suggestions.iterator();
-
-            List<Suggestion> suggestionsRest = new ArrayList<Suggestion>();
-            while (it.hasNext()) {
-                SuggestionBusiness suggestionBusiness = (SuggestionBusiness) it.next();
-                business.webservice.Suggestion suggestion = suggestionBusiness.getSuggestion();
-
-                String condition = "";
-                if (suggestion.getSuggestionType().getType().equals("increase"))
-                    condition = suggestion.getPlaceType().getType()
-                            + " > "
-                            + suggestion.getValue();
-                else
-                    condition = suggestion.getPlaceType().getType()
-                            + " < "
-                            + suggestion.getValue();
-
-
-                suggestionsRest.add(new Suggestion(suggestion.getTitle(), suggestion.getDescription(), suggestionBusiness.isDone(), condition));
-            }
-            return gson.toJson(suggestionsRest, suggestionsRest.getClass());
+            return gson.toJson(suggestions, suggestions.getClass());
         } else {
-            return gson.toJson(new ArrayList<Suggestion>());
+            return gson.toJson(new ArrayList<knowyourtown.localdb.webservice.Suggestion>());
         }
-    }*/
+    }
 }

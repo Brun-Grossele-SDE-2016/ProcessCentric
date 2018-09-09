@@ -6,6 +6,7 @@ package knowyourtown.rest.models;
 public class Suggestion {
 
     public String title;
+    public String location;
     public String description;
     public String date;
     public String evaluation;
@@ -14,8 +15,9 @@ public class Suggestion {
 
     }
 
-    public Suggestion(String title, String description, String date, String evaluation) {
+    public Suggestion(String title, String location, String description, String date, String evaluation) {
         this.title = title;
+        this.location = location;
         this.description = description;
         this.date = date;
         this.evaluation = evaluation;

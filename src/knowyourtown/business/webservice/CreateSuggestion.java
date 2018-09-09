@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import knowyourtown.localdb.webservice.Suggestion;
 
 
 /**
@@ -19,7 +18,7 @@ import knowyourtown.localdb.webservice.Suggestion;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="personId" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="suggestion" type="{http://webservice.localdb.knowyourtown/}suggestion" minOccurs="0" form="qualified"/>
+ *         &lt;element name="suggestion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0" form="qualified"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +36,7 @@ public class CreateSuggestion {
 
     protected int personId;
     @XmlElement(namespace = "http://webservice.business.knowyourtown/")
-    protected Suggestion suggestion;
+    protected String suggestion;
 
     /**
      * Recupera il valore della proprietà personId.
@@ -60,10 +59,10 @@ public class CreateSuggestion {
      * 
      * @return
      *     possible object is
-     *     {@link Suggestion }
+     *     {@link String }
      *     
      */
-    public Suggestion getSuggestion() {
+    public String getSuggestion() {
         return suggestion;
     }
 
@@ -72,10 +71,10 @@ public class CreateSuggestion {
      * 
      * @param value
      *     allowed object is
-     *     {@link Suggestion }
+     *     {@link String }
      *     
      */
-    public void setSuggestion(Suggestion value) {
+    public void setSuggestion(String value) {
         this.suggestion = value;
     }
 

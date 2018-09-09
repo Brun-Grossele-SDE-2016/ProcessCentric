@@ -1,7 +1,10 @@
 
 package knowyourtown.localdb.webservice;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
 
 
 /**
@@ -21,6 +24,8 @@ import javax.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _Suggestion_QNAME = new QName("http://webservice.localdb.knowyourtown/", "suggestion");
+    private final static QName _Place_QNAME = new QName("http://webservice.localdb.knowyourtown/", "place");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: knowyourtown.localdb.webservice
@@ -35,14 +40,6 @@ public class ObjectFactory {
      */
     public Person createPerson() {
         return new Person();
-    }
-
-    /**
-     * Create an instance of {@link PlaceType }
-     * 
-     */
-    public PlaceType createPlaceType() {
-        return new PlaceType();
     }
 
     /**
@@ -62,11 +59,37 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link PlaceType }
+     * 
+     */
+    public PlaceType createPlaceType() {
+        return new PlaceType();
+    }
+
+    /**
      * Create an instance of {@link Person.Places }
      * 
      */
     public Person.Places createPersonPlaces() {
         return new Person.Places();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Suggestion }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.localdb.knowyourtown/", name = "suggestion")
+    public JAXBElement<Suggestion> createSuggestion(Suggestion value) {
+        return new JAXBElement<Suggestion>(_Suggestion_QNAME, Suggestion.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Place }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.localdb.knowyourtown/", name = "place")
+    public JAXBElement<Place> createPlace(Place value) {
+        return new JAXBElement<Place>(_Place_QNAME, Place.class, null, value);
     }
 
 }

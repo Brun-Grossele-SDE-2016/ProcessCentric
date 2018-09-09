@@ -156,7 +156,7 @@ public interface Business {
         @WebParam(name = "personId", targetNamespace = "")
         int personId,
         @WebParam(name = "suggestion", targetNamespace = "http://webservice.business.knowyourtown/")
-        Suggestion suggestion);
+        String suggestion);
 
     /**
      * 
