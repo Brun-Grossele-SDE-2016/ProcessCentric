@@ -25,7 +25,7 @@ public class ResPlace {
     @GET
     @Produces("application/json")
     public String show() {
-        System.out.println(":: MEASURE GET RECIEVED : /place");
+        System.out.println(":: PLACE GET RECIEVED : /place");
         return "Welcome to place!";
     }
 

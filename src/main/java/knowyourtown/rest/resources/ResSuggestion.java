@@ -27,7 +27,7 @@ public class ResSuggestion {
     @GET
     @Produces("application/json")
     public String show() {
-        System.out.println(":: GOAL GET RECIEVED : /suggestion");
+        System.out.println(":: SUGGESTION GET RECIEVED : /suggestion");
         return "Welcome to suggestion!";
     }
 
@@ -37,7 +37,7 @@ public class ResSuggestion {
     @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public String deleteSuggestion(@PathParam("uid") Integer uid, @PathParam("title") String title) {
 
-        System.out.println(":: GOAL GET RECIEVED : /suggestion/delete/" + uid + "/" + title);
+        System.out.println(":: SUGGESTION GET RECIEVED : /suggestion/delete/" + uid + "/" + title);
 
         BusinessClient businessClient = new BusinessClient();
         Business business = businessClient.getBusiness();
@@ -55,7 +55,7 @@ public class ResSuggestion {
     @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public String newSuggestion(@PathParam("uid") Integer uid, @PathParam("oldTitle") String oldTitle, String evaluation) {
 
-        System.out.println(":: GOAL POST RECIEVED : /suggestion/new/" + uid + "/" + oldTitle);
+        System.out.println(":: SUGGESTION POST RECIEVED : /suggestion/new/" + uid + "/" + oldTitle);
 
         //CALL BUSINESS SERVICE
         BusinessClient businessClient = new BusinessClient();

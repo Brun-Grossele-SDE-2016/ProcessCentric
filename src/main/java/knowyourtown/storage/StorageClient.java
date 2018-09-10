@@ -9,8 +9,7 @@ import knowyourtown.storage.webservice.StorageService;
 public class StorageClient {
 
     public final static String SERVICE_URL_STORAGE = "http://localhost:6902/ws/storage?wsdl";
-    //public final static String SERVICE_URL_STORAGE = "https://introsde-lifecoach-storage.herokuapp.com/ws/storage/?wsdl";
-
+ 
     private Storage storage;
     private StorageService storageService;
 

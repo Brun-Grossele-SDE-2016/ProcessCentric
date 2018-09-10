@@ -9,8 +9,7 @@ import knowyourtown.business.webservice.BusinessService;
 public class BusinessClient {
 
     public final static String SERVICE_URL_BUSINESS = "http://localhost:6901/ws/business?wsdl";
-    //public final static String SERVICE_URL_BUSINESS = "https://introsde-lifecoach-storage.herokuapp.com/ws/storage/?wsdl";
-
+    
     private Business business;
     private BusinessService businessService;
 
